@@ -16,11 +16,16 @@
                 <article class="wrapper">
                     <section class="row">
                         <article class="col-md-6">
-                            <clients></clients>
-                        </article>
-                        <article class="col-md-6">
                             <stocks></stocks>
                         </article>
+                        <article class="col-md-6">
+                            <clients></clients>
+                        </article>
+                    </section>
+                </article>
+                <article class="row">
+                    <section class="col-md-12">
+                        <purchase></purchase>
                     </section>
                 </article>
             </section>

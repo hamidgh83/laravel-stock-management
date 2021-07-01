@@ -1,4 +1,67 @@
 .wrapper {
-    margin-top: 150px;
-    margin-bottom: 150px;
+    padding: 30px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    background-color: white;
 }
+
+.table_caption {
+    margin-bottom: 10px;
+    span {
+        color: $darkgray;
+        font-size: 14pt !important;
+        font-weight: bold !important;
+    }
+    button {
+        float: right;
+    }
+}
+
+.dropdown {
+    button {
+        padding: 0;
+    }
+}
+
+.table {
+    thead {
+        th {
+            color: $gray;
+        }
+    }
+    tbody {
+        tr {
+            th:first-child {
+                color: $gray;
+            }
+        }
+    }
+}
+
+.scroll {
+    min-height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+  
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-action {
+      text-align: right;
+      padding: 10px 0;
+  }
