@@ -17,7 +17,7 @@ class CreateStocksTable extends Migration
             $table->id();
             $table->string('company_name', 80);
             $table->decimal('unit_price');
-            $table->timestamp('created_at');
+            $table->timestamps();
             $table->softDeletes();
         });
     }
