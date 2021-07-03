@@ -34,5 +34,6 @@ Route::prefix('/stock')
     ->namespace('Stock\Controllers')
     ->as('stock.')
     ->group(function () {
+        Route::post('/', CreateStockController::class)->name('create');
         Route::get('/', GetStocksController::class)->name('list');
     });

@@ -3,6 +3,7 @@
 namespace App\Modules\Stock\Services;
 
 use App\Models\Client;
+use App\Models\Stock;
 use App\Repositories\StockRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -16,6 +17,18 @@ class StockService
     public function __construct(StockRepository $stockRepository)
     {
         $this->stockRepository = $stockRepository;
+    }
+
+    /**
+     * Create a new stock
+     *
+     * @param array $data
+     *
+     * @return Stock
+     */
+    public function create(array $data): Stock
+    {
+        return $this->stockRepository->create($data);
     }
 
     /**
