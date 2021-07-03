@@ -14,7 +14,7 @@ class GetStocksController
 
     public function __construct(StockService $stockService)
     {
-        $this->stockService= $stockService;
+        $this->stockService = $stockService;
     }
 
     public function __invoke()

@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Common\Setting;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 
@@ -118,7 +117,7 @@ abstract class BaseRepository implements EloquentRepositoryInterface
         $model = $this->container->make($this->getModel());
 
         if (! $model instanceof Model) {
-            throw new \RuntimeException (
+            throw new \RuntimeException(
                 "Class {$this->getModel()} must be an instance of Illuminate\\Database\\Eloquent\\Model",
             );
         }

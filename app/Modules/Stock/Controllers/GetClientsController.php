@@ -2,7 +2,6 @@
 
 namespace App\Modules\Stock\Controllers;
 
-use App\Models\Client;
 use App\Modules\Stock\Resources\ClientCollection;
 use App\Modules\Stock\Services\ClientService;
 
@@ -15,7 +14,7 @@ class GetClientsController
 
     public function __construct(clientService $clientService)
     {
-        $this->clientService= $clientService;
+        $this->clientService = $clientService;
     }
 
     public function __invoke(): ClientCollection

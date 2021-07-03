@@ -15,8 +15,8 @@ class Stock extends Model
     public function purchasedBy(): BelongsToMany
     {
         return $this
-                ->belongsToMany(Client::class, 'clients_stocks')
-                ->withPivot('volume', 'unit_price')
-    	        ->withTimestamps();
+            ->belongsToMany(Client::class, 'clients_stocks')
+            ->withPivot('volume', 'unit_price')
+            ->withTimestamps();
     }
 }

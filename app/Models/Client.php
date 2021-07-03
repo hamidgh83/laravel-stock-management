@@ -11,12 +11,12 @@ class Client extends Model
     use HasFactory;
 
     protected $table = 'clients';
-    
+
     public function stocks(): BelongsToMany
     {
         return $this
-                ->belongsToMany(Stock::class, 'clients_stocks')
-                ->withPivot('volume', 'unit_price')
-    	        ->withTimestamps();
-    }    
+            ->belongsToMany(Stock::class, 'clients_stocks')
+            ->withPivot('volume', 'unit_price')
+            ->withTimestamps();
+    }
 }

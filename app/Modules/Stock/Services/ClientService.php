@@ -2,7 +2,6 @@
 
 namespace App\Modules\Stock\Services;
 
-use App\Models\Client;
 use App\Repositories\ClientRepository;
 use Illuminate\Database\Eloquent\Collection;
 

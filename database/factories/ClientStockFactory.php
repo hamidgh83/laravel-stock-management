@@ -30,7 +30,7 @@ class ClientStockFactory extends Factory
             'stock_id' => $stock->id,
             'volume' => $this->faker->numberBetween(100, 1000),
             'unit_price' => $this->faker->numberBetween(
-                $stock->unit_price - ($stock->unit_price * 0.2), 
+                $stock->unit_price - ($stock->unit_price * 0.2),
                 $stock->unit_price + ($stock->unit_price * 0.2)
             ),
             'created_at' => $this->faker->dateTimeBetween($stock->created_at, 'now'),

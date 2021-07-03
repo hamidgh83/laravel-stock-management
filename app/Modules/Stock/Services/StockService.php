@@ -22,6 +22,7 @@ class StockService
      * Get an identified client stocks
      *
      * @param Client $client
+     *
      * @return Collection
      */
     public function getClientStocks(Client $client): Collection

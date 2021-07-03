@@ -23,7 +23,7 @@ class StockFactory extends Factory
     public function definition()
     {
         $createdAt = Carbon::createFromTimestamp($this->faker->dateTimeBetween('-6 month', '-1 day')->getTimeStamp()) ;
-        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', now())->addHours( $this->faker->numberBetween( -5, 0 ) );
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', now())->addHours($this->faker->numberBetween(-5, 0));
 
         return [
             'company_name' => $this->faker->company,

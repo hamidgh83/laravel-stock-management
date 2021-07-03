@@ -28,16 +28,16 @@ class ClientRepository extends BaseRepository
     {
         /** @var Client */
         $client = $this->makeModel();
-        
+
         return $client::select(
-            'clients.id', 
-            'clients.username', 
-            'clients.balance', 
+            'clients.id',
+            'clients.username',
+            'clients.balance',
             DB::raw('SUM((stocks.unit_price - clients_stocks.unit_price) * clients_stocks.volume) as profit')
         )
-        ->join('clients_stocks', 'clients.id', '=', 'clients_stocks.client_id') 
-        ->join('stocks', 'stocks.id', '=', 'clients_stocks.stock_id') 
-        ->groupBy('clients.id') 
-        ->get();
+            ->join('clients_stocks', 'clients.id', '=', 'clients_stocks.client_id')
+            ->join('stocks', 'stocks.id', '=', 'clients_stocks.stock_id')
+            ->groupBy('clients.id')
+            ->get();
     }
 }
