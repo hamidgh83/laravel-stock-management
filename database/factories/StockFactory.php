@@ -30,7 +30,7 @@ class StockFactory extends Factory
             'unit_price' => $this->faker->numberBetween(10, 100),
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,
-            'deleted_at' => $this->faker->optional()->dateTime(),
+            // 'deleted_at' => $this->faker->optional()->dateTime(),
         ];
     }
 }
