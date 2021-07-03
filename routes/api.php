@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::fallback(function(){
+    throw new HttpResponseException(response()->json([
+        'message' => 'Page not found',
+    ], Response::HTTP_NOT_FOUND));
+});
+
 Route::prefix('/client')
     ->namespace('Stock\Controllers')
     ->as('client.')
     ->group(function () {
-        // Route::post('/', CreateClientController::class)->name('create');
+        Route::post('/', CreateClientController::class)->name('create');
         Route::get('/', GetClientsController::class)->name('list');
         Route::get('/{client}/stocks', GetClientStocksController::class)->name('list-stocks');
     });

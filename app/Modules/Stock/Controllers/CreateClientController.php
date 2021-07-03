@@ -2,10 +2,11 @@
 
 namespace App\Modules\Stock\Controllers;
 
-use App\Modules\Stock\Resources\ClientCollection;
+use App\Modules\Stock\Requests\CreateClientRequest;
+use App\Modules\Stock\Resources\ClientResource;
 use App\Modules\Stock\Services\ClientService;
 
-class GetClientsController
+class CreateClientController
 {
     /**
      * @var ClientService
@@ -17,10 +18,10 @@ class GetClientsController
         $this->clientService = $clientService;
     }
 
-    public function __invoke(): ClientCollection
+    public function __invoke(CreateClientRequest $request): ClientResource
     {
-        return ClientCollection::make(
-            $this->clientService->getAllClients()
+        return ClientResource::make(
+            $this->clientService->create($request->validated())
         );
     }
 }

@@ -10,6 +10,8 @@ class Client extends Model
 {
     use HasFactory;
 
+    const DEFAULT_BALANCE = 1000;
+
     protected $table = 'clients';
 
     public function stocks(): BelongsToMany
