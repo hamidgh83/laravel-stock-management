@@ -15,7 +15,8 @@ class Client extends Model
     public function stocks(): BelongsToMany
     {
         return $this
-                ->belongsToMany(Stock::class, 'clients_stocks', 'client_id', 'stock_id')
+                ->belongsToMany(Stock::class, 'clients_stocks')
+                ->withPivot('volume', 'unit_price')
     	        ->withTimestamps();
     }    
 }

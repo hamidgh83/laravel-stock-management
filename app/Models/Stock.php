@@ -12,10 +12,10 @@ class Stock extends Model
 
     protected $table = 'stocks';
 
-    public function clients(): BelongsToMany
+    public function purchasedBy(): BelongsToMany
     {
         return $this
-                ->belongsToMany(Client::class, 'clients_stocks', 'stock_id', 'client_id')
+                ->belongsToMany(Client::class, 'clients_stocks')
                 ->withPivot('volume', 'unit_price')
     	        ->withTimestamps();
     }
