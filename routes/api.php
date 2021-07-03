@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix('/client')
+    ->namespace('Stock\Controllers')
+    ->as('client.')
+    ->group(function () {
+        // Route::post('/', CreateClientController::class)->name('create');
+        Route::get('/', GetClientsController::class)->name('list');
+        Route::get('/{client}/stocks', GetClientStocksController::class)->name('list-stocks');
+    });
+
+Route::prefix('/stock')
+    ->namespace('Stock\Controllers')
+    ->as('stock.')
+    ->group(function () {
+        Route::get('/', GetStocksController::class)->name('list');
+    });
