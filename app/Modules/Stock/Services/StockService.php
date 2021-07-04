@@ -2,6 +2,7 @@
 
 namespace App\Modules\Stock\Services;
 
+use App\Exceptions\HttpExceptions\InsufficientCreditException;
 use App\Models\Client;
 use App\Models\Stock;
 use App\Repositories\StockRepository;
@@ -77,6 +78,12 @@ class StockService
      */
     public function purchaseStock(Client $client, Stock $stock, $volume): Collection
     {
+        $totalCost = $stock->unit_price * $volume;
+
+        if ($client->balance < $totalCost) {
+            throw new InsufficientCreditException();
+        }
+
         return $this->stockRepository->purchase($client, $stock, $volume);
     }
 }
