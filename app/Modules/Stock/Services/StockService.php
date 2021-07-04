@@ -32,6 +32,19 @@ class StockService
     }
 
     /**
+     * Update a stock
+     *
+     * @param Stock $stock
+     * @param array $data
+     *
+     * @return Stock
+     */
+    public function update(Stock $stock, array $data): Stock
+    {
+        return $this->stockRepository->update($data, $stock);
+    }
+
+    /**
      * Get an identified client stocks
      *
      * @param Client $client
