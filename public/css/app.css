@@ -11094,8 +11094,12 @@ h3 {
 .table thead th {
   color: #9c9c9c;
 }
-.table tbody tr th:first-child {
+.table tbody tr td {
+  font-size: 0.7rem;
+}
+.table tbody tr td:first-child {
   color: #9c9c9c;
+  font-weight: bold;
 }
 
 .scroll {

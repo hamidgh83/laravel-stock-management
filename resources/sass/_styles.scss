@@ -31,8 +31,12 @@
     }
     tbody {
         tr {
-            th:first-child {
-                color: $gray;
+            td {
+                font-size: $font-size-small;
+                &:first-child {
+                    color: $gray;
+                    font-weight: bold;
+                }
             }
         }
     }

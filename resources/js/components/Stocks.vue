@@ -16,12 +16,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in this.clients"
+                    <tr v-for="(item, index) in this.stocks"
                     v-bind:key="index"
                     v-bind:value="item.key">
-                        <th scope="row">{{item.company}}</th>
-                        <th scope="row">€ {{item.unit}}</th>
-                        <th scope="row">{{item.updated_at}}</th>
+                        <td scope="row">{{item.company}}</td>
+                        <td scope="row">€ {{item.unit_price}}</td>
+                        <td scope="row">{{item.updated_at}}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,18 +48,20 @@
                             <span aria-hidden="true" @click="showModal = false">&times;</span>
                             </button>
                             <p><strong>Create a new stock</strong></p>
-                            <div style="margin-bottom:10px">
-                                <input type="text" class="form-control" placeholder="Company">
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">€</div>
+                            <form v-on:submit.prevent="addStock">
+                                <div style="margin-bottom:10px">
+                                    <input type="text" class="form-control" v-model="form.company_name" placeholder="Company">
                                 </div>
-                                <input type="text" class="form-control" placeholder="Unit price">
-                            </div>
-                            <div class="modal-action">
-                                <button type="button" class="btn btn-primary">Add</button>
-                            </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">€</div>
+                                    </div>
+                                    <input type="text" class="form-control" v-model="form.unit_price" placeholder="Unit price">
+                                </div>
+                                <div class="modal-action">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -71,17 +73,49 @@
 
 <script>
 export default {
-    created: function() {},
+     mounted () {
+        this.resetForm(); 
+        this.loadStocksList();
+    },
     data() {
         return {
             showModal: false,
-            message: "",
-            clients: [
-                {company: "Microsoft", unit: "35.0", updated_at: "11/02/2021"},
-                {company: "IBM", unit: "23.0", updated_at: "05/01/2021"},
-                {company: "Apple", unit: "25.6", updated_at: "08/02/2021"},
-            ]
+            error: "",
+            stocks: [],
+            form: {}
         };
+    },
+    methods:{
+        addStock() {
+            let baseUrl = process.env.MIX_API_URL;
+            axios.post(baseUrl + '/stock', this.form)
+                 .then((res) => {
+                    this.stocks.push(res.data.data);
+                    this.resetForm();
+                    this.showModal = false;
+                 })
+                 .catch((error) => {
+                     this.error = error;
+                     console.log(error);
+                 });
+        },
+        loadStocksList() {
+            let baseUrl = process.env.MIX_API_URL;
+            axios
+                .get(baseUrl + '/stock')
+                .then(response => {
+                    this.stocks = response.data.data
+                })
+                .catch(error => {
+                    
+                });
+        },
+        resetForm() {
+            this.form = {
+                company_name: '',
+                unit_price: 0
+            }
+        }
     }
 }
 </script>

@@ -19,14 +19,14 @@
                     <tr v-for="(item, index) in this.clients"
                     v-bind:key="index"
                     v-bind:value="item.key">
-                        <th scope="row">{{item.client}}</th>
-                        <th scope="row">{{item.balance}}</th>
-                        <th scope="row">
+                        <td scope="row">{{item.username}}</td>
+                        <td scope="row">{{item.balance}}</td>
+                        <td scope="row">
                             <span v-bind:class="{'text-success':(item.profit >= 0), 'text-danger':(item.profit < 0)}">
                                 {{item.profit}}
                             </span>
-                        </th>
-                        <th>
+                        </td>
+                        <td>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
@@ -36,7 +36,7 @@
                                     <li><a class="dropdown-item" href="#">View stocks</a></li>
                                 </ul>
                             </div>
-                        </th>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -51,15 +51,17 @@
                             <span aria-hidden="true" @click="showModal = false">&times;</span>
                             </button>
                             <p><strong>Create a new client</strong></p>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">@</div>
+                            <form v-on:submit.prevent="addClient">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">@</div>
+                                    </div>
+                                    <input type="text" class="form-control" v-model="form.username" placeholder="Username">
                                 </div>
-                                <input type="text" class="form-control" id="username" placeholder="Username">
-                            </div>
-                            <div class="modal-action">
-                                <button type="button" class="btn btn-primary">Add</button>
-                            </div>
+                                <div class="modal-action">
+                                    <button type="button" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -71,18 +73,50 @@
 
 <script>
 export default {
-    created: function() {},
-    data() {
+    mounted () {
+        this.resetForm();
+        this.loadClientsList();
+    },
+    data () {
         return {
             showModal: false,
             message: "",
-            clients: [
-                {client: "johndoe", balance: "670", profit: "16"},
-                {client: "michael", balance: "25", profit: "-20"},
-                {client: "Joe", balance: "1000", profit: "80"},
-                {client: "george", balance: "410", profit: "10"},
-            ]
+            clients: [],
+            form: {
+                'username': null
+            }
         };
+    },
+    methods: {
+        addClient() {
+            let baseUrl = process.env.MIX_API_URL;
+            axios.post(baseUrl + '/client', this.form)
+                 .then((res) => {
+                    this.clients.push(res.data.data);
+                    this.resetForm();
+                    this.showModal = false;
+                 })
+                 .catch((error) => {
+                     this.error = error;
+                     console.log(error);
+                 });
+        },
+        loadClientsList() {
+            let baseUrl = process.env.MIX_API_URL;
+            axios
+                .get(baseUrl + '/client')
+                .then(response => {
+                    this.clients = response.data.data
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        },
+        resetForm() {
+            this.form = {
+                username: null
+            }
+        }
     }
 }
 </script>
