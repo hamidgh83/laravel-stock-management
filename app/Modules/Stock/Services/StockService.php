@@ -46,10 +46,24 @@ class StockService
     /**
      * Get all available stocks
      *
-     * @return void
+     * @return Collection
      */
     public function getAvailableStocks(): Collection
     {
         return $this->stockRepository->getAllStocks();
+    }
+
+    /**
+     * Purchase a stock for a client
+     *
+     * @param Client $client
+     * @param Stock $stock
+     * @param float $volume
+     *
+     * @return Collection
+     */
+    public function purchaseStock(Client $client, Stock $stock, $volume): Collection
+    {
+        return $this->stockRepository->purchase($client, $stock, $volume);
     }
 }

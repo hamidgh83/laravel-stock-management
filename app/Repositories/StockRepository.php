@@ -33,4 +33,11 @@ class StockRepository extends BaseRepository
     {
         return $this->query()->get();
     }
+
+    public function purchase(Client $client, Stock $stock, $volume): Collection
+    {
+        $stock->purchasedBy()->attach($client->id, ['volume' => $volume, 'unit_price' => $stock->unit_price]);
+
+        return $client->stocks()->get();
+    }
 }

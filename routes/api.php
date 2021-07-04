@@ -26,6 +26,7 @@ Route::prefix('/client')
     ->as('client.')
     ->group(function () {
         Route::post('/', CreateClientController::class)->name('create');
+        Route::post('/{client}/stock/{stock}', CreateClientStockController::class)->name('purchase-stock');
         Route::get('/', GetClientsController::class)->name('list');
         Route::get('/{client}/stocks', GetClientStocksController::class)->name('list-stocks');
     });

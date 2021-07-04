@@ -17,7 +17,6 @@ class ClientStocksResource extends JsonResource
 {
     public function toArray($request): array
     {
-        // dd($this);
         return [
             'company' => $this->company_name,
             'volume' => $this->pivot->volume,
