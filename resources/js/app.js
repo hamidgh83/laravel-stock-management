@@ -1,18 +1,12 @@
 require("./bootstrap");
 
 import Vue from 'vue'
-import Purchase from './components/Purchase';
-import Clients from './components/Clients';
-import Stocks from './components/Stocks';
-import ClientsStocks from './components/ClientsStocks';
+import VueRouter from 'vue-router';
+import router from './router'
 
+Vue.use(VueRouter);
 
 const app = new Vue({
     el: '#app',
-    components: {
-        Purchase,
-        Clients,
-        Stocks,
-        ClientsStocks
-    }
+    router
 });
