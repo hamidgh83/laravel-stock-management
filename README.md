@@ -24,9 +24,11 @@ php artisan key:generate
 
 **Note:** Please don't forget to install npm packages.
 
+## Database schema
+You can find the database schema **[here](./db/README.md "click to follow")**.
 ## Endpoints
 
-### Create a new client
+#### Create a new client
 ``` bash
 POST api/client
 ```
@@ -37,12 +39,12 @@ Payload:
     "username": "string"
 }
 ```
-### Get all clients
+#### Get all clients
 ``` bash
 GET api/client
 ```
 
-### Add a stock
+#### Add a stock
 ``` bash
 POST api/stock
 ```
@@ -55,12 +57,12 @@ Payload:
 }
 ```
 
-### Get all stocks
+#### Get all stocks
 ``` bash
 GET api/stock
 ```
 
-### Update a stock
+#### Update a stock
 ``` bash
 PUT api/stock/{stock_id}
 ```
@@ -70,11 +72,11 @@ Payload:
     "unit_price": 0
 }
 ```
-### Delete a stock
+#### Delete a stock
 ``` bash
 DELETE api/stock/{stock_id}
 ```
-### Purchase a stock for a client
+#### Purchase a stock for a client
 ``` bash
 PUT api/client{client_id}/stock/{stock_id}
 ```
