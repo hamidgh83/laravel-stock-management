@@ -25,7 +25,7 @@ php artisan key:generate
 **Note:** Please don't forget to install npm packages.
 
 ## Database schema
-You can find the database schema **[here](./db/README.md "click to follow")**.
+You can find the database schema **[here](./database/README.md "click to follow")**.
 ## Endpoints
 
 #### Create a new client
