@@ -11103,7 +11103,7 @@ h3 {
 }
 
 .scroll {
-  min-height: 500px;
+  min-height: 250px;
   max-height: 500px;
   overflow-y: auto;
 }
@@ -11128,4 +11128,14 @@ h3 {
 .modal-action {
   text-align: right;
   padding: 10px 0;
+}
+
+.summary {
+  margin-top: 20px;
+  font-weight: bold;
+}
+.summary span {
+  display: block;
+  text-align: right;
+  color: #9c9c9c;
 }

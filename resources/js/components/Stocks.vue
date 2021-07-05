@@ -2,7 +2,7 @@
     <div>
         <div class="table_caption">
             <span>List all stocks</span>
-            <button @click="showModal = true" type="button" class="btn btn-sm btn-primary">Create a new stock</button>
+            <button @click="addStockModal = true" type="button" class="btn btn-sm btn-primary">Create a new stock</button>
         </div>
 
         <div class="scroll">
@@ -17,8 +17,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in this.stocks"
-                    v-bind:key="index"
-                    v-bind:value="item.key">
+                    v-bind:key="index">
                         <td scope="row">{{item.company}}</td>
                         <td scope="row">€ {{item.unit_price}}</td>
                         <td scope="row">{{item.updated_at}}</td>
@@ -29,8 +28,8 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Update unit price</a></li>
-                                    <li><a class="dropdown-item" href="#">Delete stock</a></li>
+                                    <li><a class="dropdown-item" href="#" @click="updateStockModal = true, stock = item">Update unit price</a></li>
+                                    <li><a class="dropdown-item" href="#" @click="deleteStock(item)">Delete stock</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -39,65 +38,79 @@
             </table>
         </div>
 
-        <div v-if="showModal" class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" @click="showModal = false">&times;</span>
-                            </button>
-                            <p><strong>Create a new stock</strong></p>
-                            <form v-on:submit.prevent="addStock">
-                                <div style="margin-bottom:10px">
-                                    <input type="text" class="form-control" v-model="form.company_name" placeholder="Company">
-                                </div>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">€</div>
-                                    </div>
-                                    <input type="text" class="form-control" v-model="form.unit_price" placeholder="Unit price">
-                                </div>
-                                <div class="modal-action">
-                                    <button type="submit" class="btn btn-primary">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <br/>
+        <router-link to="/client" class="btn btn-success">Clients list</router-link>
+
+        <add-stock 
+            v-if="addStockModal" 
+            v-on:pushStockItem="(...args)=>this.pushStockItem(...args)"
+            v-on:closeModal="closeModal($event)">
+            </add-stock>
+
+        <update-stock 
+            v-if="updateStockModal" 
+            v-bind:item="stock"
+            v-on:closeUpdateModal="closeUpdateModal($event)"
+            v-on:loadStocksList="loadStocksList($event)">
+            </update-stock>
     </div>
 </template>
 
 
 <script>
+import AddStock from './AddStock.vue';
+import UpdateStock from './UpdateStock.vue';
+
 export default {
-     mounted () {
-        this.resetForm(); 
+    components: {
+        AddStock,
+        UpdateStock
+    },
+    mounted () {
         this.loadStocksList();
     },
     data() {
         return {
-            showModal: false,
+            stock: {},
+            addStockModal: false,
+            updateStockModal: false,
             error: "",
-            stocks: [],
-            form: {}
+            stocks: []
         };
     },
     methods:{
+        closeModal() {
+            this.addStockModal = false
+        },
+        closeUpdateModal() {
+            this.updateStockModal = false
+        },
         addStock() {
             let baseUrl = process.env.MIX_API_URL;
             axios.post(baseUrl + '/stock', this.form)
                  .then((res) => {
                     this.stocks.push(res.data.data);
                     this.resetForm();
-                    this.showModal = false;
+                    this.addStockModal = false;
                  })
                  .catch((error) => {
                      this.error = error;
                      console.log(error);
                  });
+        },
+        deleteStock(item) {
+            let baseUrl = process.env.MIX_API_URL;
+            axios.delete(baseUrl + '/stock/' + item.id)
+                 .then((res) => {
+                    this.loadStocksList();
+                 })
+                 .catch((error) => {
+                     this.error = error;
+                     console.log(error);
+                 });
+        },
+        pushStockItem(item) {
+            this.stocks.push(item);
         },
         loadStocksList() {
             let baseUrl = process.env.MIX_API_URL;
@@ -109,12 +122,6 @@ export default {
                 .catch(error => {
                     
                 });
-        },
-        resetForm() {
-            this.form = {
-                company_name: '',
-                unit_price: 0
-            }
         }
     }
 }

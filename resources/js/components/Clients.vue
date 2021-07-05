@@ -17,8 +17,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in this.clients"
-                    v-bind:key="index"
-                    v-bind:value="item.key">
+                    v-bind:key="index">
                         <td scope="row">{{item.username}}</td>
                         <td scope="row">{{item.balance}}</td>
                         <td scope="row">
@@ -33,7 +32,9 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">View stocks</a></li>
+                                    <li>
+                                        <router-link :to="{ name: 'clientStocks', params: { id: item.id }}" class="dropdown-item">View stocks</router-link>
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -59,7 +60,7 @@
                                     <input type="text" class="form-control" v-model="form.username" placeholder="Username">
                                 </div>
                                 <div class="modal-action">
-                                    <button type="button" class="btn btn-primary">Add</button>
+                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
                             </form>
                         </div>
@@ -67,12 +68,27 @@
                 </div>
             </div>
         </div>
+
+        <br/>
+        <router-link to="/" class="btn btn-success">Stocks list</router-link>
+        <button type="button" class="btn btn-primary" @click="showPurchaseModal = true">Purchase a stock</button>
+
+        <purchase 
+            v-if="showPurchaseModal" 
+            v-on:closePurchaseModal="closePurchaseModal($event)"
+            v-on:loadClientsList="loadClientsList($event)">
+            </purchase>
     </div>
 </template>
 
 
 <script>
+import Purchase from './Purchase.vue';
+
 export default {
+    components: {
+        Purchase
+    },
     mounted () {
         this.resetForm();
         this.loadClientsList();
@@ -80,6 +96,7 @@ export default {
     data () {
         return {
             showModal: false,
+            showPurchaseModal: false,
             message: "",
             clients: [],
             form: {
@@ -88,6 +105,9 @@ export default {
         };
     },
     methods: {
+        closePurchaseModal() {
+            this.showPurchaseModal = false
+        },
         addClient() {
             let baseUrl = process.env.MIX_API_URL;
             axios.post(baseUrl + '/client', this.form)

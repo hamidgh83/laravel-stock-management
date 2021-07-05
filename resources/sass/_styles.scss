@@ -43,7 +43,7 @@
 }
 
 .scroll {
-    min-height: 500px;
+    min-height: 250px;
     max-height: 500px;
     overflow-y: auto;
 }
@@ -58,14 +58,24 @@
     background-color: rgba(0, 0, 0, .5);
     display: table;
     transition: opacity .3s ease;
-  }
-  
-  .modal-wrapper {
+}
+
+.modal-wrapper {
     display: table-cell;
     vertical-align: middle;
-  }
+}
 
-  .modal-action {
-      text-align: right;
-      padding: 10px 0;
-  }
+.modal-action {
+    text-align: right;
+    padding: 10px 0;
+}
+
+.summary {
+    margin-top: 20px;
+    font-weight: bold;
+    span {
+        display: block;
+        text-align: right;
+        color: $gray;
+    }
+}
