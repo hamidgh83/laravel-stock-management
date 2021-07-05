@@ -20,8 +20,8 @@ class ClientResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'balance' => $this->balance,
-            'profit' => $this->profit,
+            'balance' => $this->balance ?? 0,
+            'profit' => $this->profit ?? 0,
         ];
     }
 }

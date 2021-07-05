@@ -46,6 +46,18 @@ class StockService
     }
 
     /**
+     * Delete a stock
+     *
+     * @param Stock $stock
+     *
+     * @return void
+     */
+    public function delete(Stock $stock): bool
+    {
+        return $this->stockRepository->delete($stock);
+    }
+
+    /**
      * Get an identified client stocks
      *
      * @param Client $client
