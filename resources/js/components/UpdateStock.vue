@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import request from "../services/Request";
+
 export default {
     data() {
         return {
@@ -42,17 +44,19 @@ export default {
         closeModal() {
             this.$emit("closeUpdateModal");
         },
+        reloadStockList() {
+            this.$emit("loadStocksList");
+        },
         updateStock() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios.put(baseUrl + '/stock/' + this.item.id, this.form)
-                 .then((res) => {
-                    this.$emit("loadStocksList");
-                    this.closeModal();
-                 })
-                 .catch((error) => {
-                     this.error = error;
-                     console.log(error);
-                 });
+            let self = this;
+            request({
+                url: "/stock/" + this.item.id,
+                method: "put",
+                data: this.form
+            }).then(function(response) {
+                self.reloadStockList();
+                self.closeModal();
+            });
         }
     }
 }

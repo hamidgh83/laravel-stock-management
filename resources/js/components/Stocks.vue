@@ -60,6 +60,7 @@
 <script>
 import AddStock from './AddStock.vue';
 import UpdateStock from './UpdateStock.vue';
+import request from "../services/Request";
 
 export default {
     components: {
@@ -86,42 +87,39 @@ export default {
             this.updateStockModal = false
         },
         addStock() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios.post(baseUrl + '/stock', this.form)
-                 .then((res) => {
-                    this.stocks.push(res.data.data);
-                    this.resetForm();
-                    this.addStockModal = false;
-                 })
-                 .catch((error) => {
-                     this.error = error;
-                     console.log(error);
-                 });
+            let self = this;
+            request({
+                url: '/stock',
+                method: "post",
+                data: self.form
+            }).then(function(response) {
+                self.stocks.push(res.data.data);
+                self.resetForm();
+                self.addStockModal = false;
+            });
         },
         deleteStock(item) {
-            let baseUrl = process.env.MIX_API_URL;
-            axios.delete(baseUrl + '/stock/' + item.id)
-                 .then((res) => {
-                    this.loadStocksList();
-                 })
-                 .catch((error) => {
-                     this.error = error;
-                     console.log(error);
-                 });
+            let self = this;
+            request({
+                url: "/stock/" + item.id,
+                method: "delete",
+                data: this.form
+            }).then(function(response) {
+                self.loadStocksList();
+            });
         },
         pushStockItem(item) {
             this.stocks.push(item);
         },
         loadStocksList() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios
-                .get(baseUrl + '/stock')
-                .then(response => {
-                    this.stocks = response.data.data
-                })
-                .catch(error => {
-                    
-                });
+            let self = this;
+            request({
+                url: "/stock",
+                method: "get",
+                data: self.form
+            }).then(function(response) {
+                self.stocks = response.data.data
+            });
         }
     }
 }

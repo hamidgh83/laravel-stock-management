@@ -59,6 +59,7 @@
                                     </div>
                                     <input type="text" class="form-control" v-model="form.username" placeholder="Username">
                                 </div>
+                                <div class="alert alert-danger" v-if="hasError">{{getError}}</div>
                                 <div class="modal-action">
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
@@ -84,6 +85,8 @@
 
 <script>
 import Purchase from './Purchase.vue';
+import store from "../stores/user";
+import request from "../services/Request";
 
 export default {
     components: {
@@ -104,33 +107,38 @@ export default {
             }
         };
     },
+    computed: {
+        getError() {
+            return store.getters.errorMessage;
+        },
+        hasError() {
+            return store.getters.hasError;
+        }
+    },
     methods: {
         closePurchaseModal() {
             this.showPurchaseModal = false
         },
         addClient() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios.post(baseUrl + '/client', this.form)
-                 .then((res) => {
-                    this.clients.push(res.data.data);
-                    this.resetForm();
-                    this.showModal = false;
-                 })
-                 .catch((error) => {
-                     this.error = error;
-                     console.log(error);
-                 });
+            let self = this;
+            request({
+                url: '/client',
+                method: "post",
+                data: this.form
+            }).then(function(response) {
+                self.clients.push(response.data.data);
+                self.resetForm();
+                self.showModal = false;
+            });
         },
         loadClientsList() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios
-                .get(baseUrl + '/client')
-                .then(response => {
-                    this.clients = response.data.data
-                })
-                .catch(error => {
-                    console.log(error)
-                });
+            let self = this;
+            request({
+                url: '/client',
+                method: "get"
+            }).then(function(response) {
+                self.clients = response.data.data
+            });
         },
         resetForm() {
             this.form = {

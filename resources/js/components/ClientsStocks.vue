@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="table_caption">
-            <span>List all stocks</span>
-            <button @click="addStockModal = true" type="button" class="btn btn-sm btn-primary">Create a new stock</button>
+            <span>Client stocks</span>
         </div>
 
         <div class="scroll">
@@ -41,6 +40,7 @@
 </template>
 
 <script>
+import request from "../services/Request";
 import ClientSummary from './ClientSummary.vue';
 
 export default {
@@ -58,15 +58,14 @@ export default {
     },
     methods:{
         loadItems() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios
-                .get(baseUrl + '/client/' + this.$route.params.id + '/stocks')
-                .then(response => {
-                    this.items = response.data.data
-                })
-                .catch(error => {
-                    
-                });
+            let self = this;
+            let url = '/client/' + this.$route.params.id + '/stocks';
+            request({
+                url: url,
+                method: "get",
+            }).then(function(response) {
+                self.items = response.data.data
+            });
         }
     }
 }

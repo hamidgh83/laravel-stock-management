@@ -27,6 +27,7 @@
                                     </select>
                                 </div>
                                 <input type="text" class="form-control" v-model="volume" placeholder="Volume">
+                                <div class="alert alert-danger" v-if="hasError">{{getError}}</div>
                                 <div class="modal-action">
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
@@ -40,6 +41,8 @@
 </template>
 
 <script>
+import request from "../services/Request";
+
 export default {
     mounted () {
         this.loadClientsList();
@@ -55,6 +58,14 @@ export default {
             volume: 0
         };
     },
+    computed: {
+        getError() {
+            return store.getters.errorMessage;
+        },
+        hasError() {
+            return store.getters.hasError;
+        }
+    },
     methods:{
         closeModal() {
             this.$emit("closePurchaseModal");
@@ -63,40 +74,34 @@ export default {
             this.$emit("loadClientsList");
         },
         purchase() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios.post(baseUrl + '/client/' + this.client + '/stock/' + this.stock, {volume: this.volume})
-                 .then((res) => {
-                    this.closeModal();
-                    this.reloadClients();
-                 })
-                 .catch((error) => {
-                     this.error = error;
-                     console.log(error);
-                     return Promise.reject(error)
-                 });
+            let self = this;
+            let url = '/client/' + this.client + '/stock/' + this.stock;
+            request({
+                url: url,
+                method: "post",
+                data: {volume: this.volume}
+            }).then(function(response) {
+                self.closeModal();
+                self.reloadClients();
+            });     
         },
         loadClientsList() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios
-                .get(baseUrl + '/client')
-                .then(response => {
-                    this.clients = response.data.data
-                })
-                .catch(error => {
-                    
-                });
+            let self = this;
+            request({
+                url: '/client',
+                method: "get"
+            }).then(function(response) {
+                self.clients = response.data.data
+            });
         },
         loadStocksList() {
-            let baseUrl = process.env.MIX_API_URL;
-            axios
-                .get(baseUrl + '/stock')
-                .then(response => {
-                    this.stocks = response.data.data;
-                    console.log(this.stocks);
-                })
-                .catch(error => {
-                    
-                });
+            let self = this;
+            request({
+                url: '/stock',
+                method: "get"
+            }).then(function(response) {
+                self.stocks = response.data.data
+            });
         }
     }
 }
