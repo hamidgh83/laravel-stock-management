@@ -18,7 +18,7 @@ class GetClientStocksController
         $this->stockService = $stockService;
     }
 
-    public function __invoke(Client $client)
+    public function __invoke(Client $client): ClientStocksCollection
     {
         return ClientStocksCollection::make(
             $this->stockService->getClientStocks($client)
