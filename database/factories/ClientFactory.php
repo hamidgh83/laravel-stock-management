@@ -26,4 +26,9 @@ class ClientFactory extends Factory
             'balance' => 1000,
         ];
     }
+
+    public function noCredit(): ClientFactory
+    {
+        return $this->state(['balance' => 0]);
+    }
 }
