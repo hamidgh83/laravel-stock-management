@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import store from "../stores/user";
 import request from "../services/Request";
 
 export default {
