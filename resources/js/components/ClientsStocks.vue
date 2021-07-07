@@ -19,9 +19,9 @@
                     <tr v-for="(item, index) in this.items"
                     v-bind:key="index">
                         <td scope="row">{{item.company}}</td>
-                        <td scope="row">€ {{item.volume}}</td>
-                        <td scope="row">{{item.purchase_price}}</td>
-                        <td scope="row">{{item.current_price}}</td>
+                        <td scope="row">{{item.volume}}</td>
+                        <td scope="row">€ {{item.purchase_price}}</td>
+                        <td scope="row">€ {{item.current_price}}</td>
                         <td scope="row">
                             <span v-bind:class="{'text-success':(item.profit >= 0), 'text-danger':(item.profit < 0)}">
                                 {{item.profit}}
